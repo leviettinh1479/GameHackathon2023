@@ -15,7 +15,7 @@ public class Move : MonoBehaviour
     private float movespeed = 7f;
     [SerializeField]
     public bool nendat;
-    private float jumpF = 7f;
+    private float jumpF = 10f;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,30 +36,47 @@ public class Move : MonoBehaviour
         //material.SetFloat("_Fade", 0.1f);
         if (Input.GetButtonDown("Jump"))
         {
-          
+            ani.SetBool("IsJumping", true);
+
+
             if (nendat == true)
-            {
+            { 
+             
+            
                 rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpF);
 
                 nendat = false;
-            }
+                
 
+            }
+            
+           
+        }
+        else
+        {
+            ani.SetBool("IsJumping", false);
 
         }
-       
+
+
+
         UpdateAni();
     }
     private void UpdateAni()
     {
         if (dirX > 0f)
-        {
+        {    
+          
             ani.SetBool("IsRunning", true);
             spriteRenderer.flipX = false;
+       
         }
         else if (dirX < 0f)
         {
+        
             ani.SetBool("IsRunning", true);
             spriteRenderer.flipX = true;
+            
 
 
         }
