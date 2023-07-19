@@ -15,7 +15,7 @@ public class Move : MonoBehaviour
     private float movespeed = 7f;
     [SerializeField]
     public bool nendat;
-    private float jumpF = 10f;
+    private float jumpF = 15f;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,58 +34,79 @@ public class Move : MonoBehaviour
         dirX = Input.GetAxisRaw("Horizontal");
         rigidbody2D.velocity = new Vector2(dirX * movespeed, rigidbody2D.velocity.y);
         //material.SetFloat("_Fade", 0.1f);
+        UpdateJump();
+        UpdateAni();
+    }
+    private void UpdateJump()
+    {
         if (Input.GetButtonDown("Jump"))
         {
-            ani.SetBool("IsJumping", true);
-
 
             if (nendat == true)
-            { 
-             
-            
+            {
+                ani.SetBool("IsJumping", true);
                 rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, jumpF);
-
                 nendat = false;
-                
 
             }
-            
-           
+            else
+            {
+             
+                ani.SetBool("IsRunning", false);
+            }
+
+
         }
         else
         {
+
             ani.SetBool("IsJumping", false);
-
+            ani.SetBool("IsRunning", true);
         }
-
-
-
-        UpdateAni();
     }
     private void UpdateAni()
     {
+        
         if (dirX > 0f)
-        {    
-          
-            ani.SetBool("IsRunning", true);
+        {
+            if (nendat == true)
+            {
+                ani.SetBool("IsRunning", true);
+
+            }
+            else
+            {
+                ani.SetBool("IsRunning", false);
+
+            }
+
             spriteRenderer.flipX = false;
-       
+           
+
+
         }
         else if (dirX < 0f)
         {
-        
-            ani.SetBool("IsRunning", true);
+            if (nendat == true)
+            {
+                ani.SetBool("IsRunning", true);
+
+            }
+            else
+            {
+                ani.SetBool("IsRunning", false);
+
+            }
+
             spriteRenderer.flipX = true;
-            
-
-
+           
         }
         else
         {
             ani.SetBool("IsRunning", false);
 
-
         }
+       
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
